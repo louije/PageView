@@ -36,9 +36,13 @@ public struct HPageView<Pages>: View where Pages: View {
     
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
-            return PageControl.DefaultHorizontal(pageCount: childCount,
-                                                 selectedPage: selectedPageBinding,
-                                                 theme: self.theme)
+            return self.theme.visible == true ?
+                AnyView(PageControl.DefaultHorizontal(
+                    pageCount: childCount,
+                    selectedPage: selectedPageBinding,
+                    theme: self.theme)
+                )
+                : AnyView(EmptyView())
         }
         
         return GeometryReader { geometry in
@@ -95,9 +99,12 @@ public struct VPageView<Pages>: View where Pages: View {
 
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
-            return PageControl.DefaultVertical(pageCount: childCount,
-                                                 selectedPage: selectedPageBinding,
-                                                 theme: self.theme)
+            return self.theme.visible == true ?
+                AnyView(PageControl.DefaultVertical(
+                    pageCount: childCount,
+                    selectedPage: selectedPageBinding,
+                    theme: self.theme)
+                ) : AnyView(EmptyView())
         }
         
         return GeometryReader { geometry in
@@ -148,9 +155,18 @@ struct PageView_Previews: PreviewProvider {
                 .fontWeight(.bold)
                 .foregroundColor(.gray)
         }
-        return HPageView {
-            v1
-            v2
+        
+        let hiddenTheme = PageControlTheme.hidden
+
+        return Group {
+            HPageView {
+                v1
+                v2
+            }
+            HPageView(theme: hiddenTheme) {
+                v1
+                v2
+            }
         }
     }
 }

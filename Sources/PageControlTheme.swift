@@ -17,6 +17,8 @@ public struct PageControlTheme {
     public var offset: CGFloat
     public var alignment: Alignment?
     
+    public var visible: Bool = true
+    
     public static var `default`: PageControlTheme {
         #if os(iOS)
             return PageControlTheme(
@@ -52,5 +54,19 @@ public struct PageControlTheme {
                 alignment: nil
             )
         #endif
+    }
+    public static var hidden: PageControlTheme {
+        return PageControlTheme(
+            backgroundColor: .black,
+            dotActiveColor: .white,
+            dotInactiveColor: Color(white: 1.0, opacity: 0.2),
+            dotSize: 7.0,
+            spacing: 9.0,
+            padding: 4.0,
+            offset: 12.0,
+            alignment: nil,
+            visible: false
+        )
+
     }
 }
