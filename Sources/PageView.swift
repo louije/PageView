@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct HPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
+    public let state: PageScrollState
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
@@ -16,6 +16,16 @@ public struct HPageView<Pages>: View where Pages: View {
     
     public init(theme: PageControlTheme = .default, @PageViewBuilder builder: () -> PageContainer<Pages>) {
         self.state = PageScrollState()
+        self.theme = theme
+        let pages = builder()
+        self.pages = pages
+        self.pageCount = pages.count
+        self.pageControlAlignment =
+            theme.alignment ?? Alignment(horizontal: .center, vertical: .bottom)
+    }
+    
+    public init(theme: PageControlTheme = .default, state: PageScrollState, @PageViewBuilder builder: () -> PageContainer<Pages>) {
+        self.state = state
         self.theme = theme
         let pages = builder()
         self.pages = pages
@@ -57,7 +67,7 @@ public struct HPageView<Pages>: View where Pages: View {
 }
 
 public struct VPageView<Pages>: View where Pages: View {
-    let state: PageScrollState
+    public let state: PageScrollState
     public let theme: PageControlTheme
     public let pages: PageContainer<Pages>
     public let pageCount: Int
@@ -73,6 +83,16 @@ public struct VPageView<Pages>: View where Pages: View {
             theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
     }
     
+    public init(theme: PageControlTheme = .default, state: PageScrollState, @PageViewBuilder builder: () -> PageContainer<Pages>) {
+        self.state = state
+        self.theme = theme
+        let pages = builder()
+        self.pages = pages
+        self.pageCount = pages.count
+        self.pageControlAlignment =
+            theme.alignment ?? Alignment(horizontal: .leading, vertical: .center)
+    }
+
     public var body: some View {
         let pageControlBuilder = { (childCount, selectedPageBinding) in
             return PageControl.DefaultVertical(pageCount: childCount,

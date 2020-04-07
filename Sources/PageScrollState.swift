@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-class PageScrollState: ObservableObject {
-    @Published var selectedPage: Int = 0
+public class PageScrollState: ObservableObject {
+    @Published public var selectedPage: Int = 0
     @Published var contentOffset: CGFloat = 0.0
     @Published var isGestureActive: Bool = false
     var scrollOffset: CGFloat = 0.0
+    
+    public init() {}
     
     func horizontalDragChanged(_ value: DragGesture.Value, viewCount: Int, pageWidth: CGFloat) {
         isGestureActive = true
